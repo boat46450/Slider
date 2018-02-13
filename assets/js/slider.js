@@ -7,24 +7,27 @@ function slider(classElement, number) {
     let position = 0
 
     this.init = () => {
-        setPosition()
+        setPosition(0)
         element.getElementsByClassName('next')[0].onclick = next
+        element.getElementsByClassName('prev')[0].onclick = prev
     }
 
     function prev() {
-        position -= 1
-
+        let newPosition = position - 1 == -1 ? n - 1 : position - 1
+        setPosition(newPosition)
+        console.log('prev position: ', position)        
     }
 
     function next() {
-        position += 1
-        setPosition()
-        console.log('position: ', position)
+        let newPosition = position + 1 == n ? 0 : position + 1        
+        setPosition(newPosition)
+        console.log('next position: ', position)
     }
 
-    function setPosition() {
+    function setPosition(newPosition) {
+        position = newPosition
         for (let i = 0; i < n; i++) {
-            item[i].style = `left: ${position + ( 100 * i )}%;`
+            item[i].style = `left: ${100 * (i - position)}%`
         }
     }
 
