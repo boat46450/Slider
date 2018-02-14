@@ -1,5 +1,4 @@
-function slider(classElement, number) {
-    let self = this
+function slider(classElement, number, intervalTime) {
     let element = document.getElementsByClassName(classElement)[number]
 
     let items = [...element.getElementsByClassName('slider-item')]
@@ -14,12 +13,22 @@ function slider(classElement, number) {
         itemControls = [...element.getElementsByClassName('control-item')]
         items.map(item => item.style = 'left: 100%')
         setPosition(0)
-        element.getElementsByClassName('next')[0].onclick = next
-        element.getElementsByClassName('prev')[0].onclick = prev
+        let interval = intervalTime ? setInterval(() => {
+            next()
+        }, intervalTime) : null
+        element.getElementsByClassName('next')[0].onclick = () => {
+            next()
+            clearInterval(interval)
+        }
+        element.getElementsByClassName('prev')[0].onclick = () => {
+            prev()
+            clearInterval(interval)
+        }
         itemControls.map((item, index) => {
-            item.addEventListener('click', () => {
+            item.onclick = () => {
                 setPosition(index)
-            })
+                clearInterval(interval)
+            }
         })
     }
 
@@ -32,6 +41,9 @@ function slider(classElement, number) {
     }
 
     function setPosition(newPosition) {
+        if(Math.abs(positions[1] - newPosition) > 1) {
+            removeTransition(positions[1])
+        }
         positions[1] = newPosition
         if(positions[0] != null && positions[2] != null) {
             removeTransition(positions[0])
@@ -41,16 +53,16 @@ function slider(classElement, number) {
         positions[2] = positions[1] + 1 == n ? 0 : positions[1] + 1
         items.map((item, index) => {
             if(index == positions[0]) {
-                item.style = 'left: -100%'
+                item.style = 'left: -100%; visibility: hidden'
             }
             else if (index == positions[1]) {
                 item.style = 'left: 0%'
             }
             else if (index == positions[2]) {
-                item.style = 'left: 100%'
+                item.style = 'left: 100%; visibility: hidden'
             }
             else {
-                item.style = 'left: 100%; display: none'
+                item.style = 'left: 100%; visibility: hidden'
             }
         })
         positions.map(position => addTransition(position))
@@ -95,9 +107,4 @@ function slider(classElement, number) {
         })
         return render
     }
-}
-
-window.onload = () => {
-    let sliderOne  = new slider('slider', 0)
-    sliderOne.init()
 }
