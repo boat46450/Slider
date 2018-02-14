@@ -22,7 +22,6 @@ body {
 .arrow {
     display: flex;
     justify-content: space-between;
-    height: 100%;
 }
 
 .prev, .next {
@@ -36,10 +35,22 @@ body {
     z-index: 10;
 }
 
-.prev {
-    left: 0;
+.control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
 }
 
-.next {
-    right: 0;
+.control-item {
+    width: 10px;
+    height: 10px;
+    margin: 0 5px;
+    border-radius: 50%;
+    background-color: gray;
+    cursor: pointer;    
+}
+
+.control-item.active {
+    background-color: orange;
 }

@@ -3,25 +3,32 @@ function slider(classElement, number) {
     let element = document.getElementsByClassName(classElement)[number]
 
     let items = [...element.getElementsByClassName('slider-item')]
+    let itemControls = []
     let n = items.length
-    let positions = [null, 0, null]
+    let positions = [null, null, null]
 
     this.init = () => {
+        element.getElementsByClassName('arrow')[0].style = `height: ${getMaxHeigth()}px;`
+        element.style = `height: ${getMaxHeigth() + getHeightControl()}px;`
+        element.getElementsByClassName('control')[0].innerHTML = renderFlowControl()
+        itemControls = [...element.getElementsByClassName('control-item')]
         items.map(item => item.style = 'left: 100%')
         setPosition(0)
         element.getElementsByClassName('next')[0].onclick = next
         element.getElementsByClassName('prev')[0].onclick = prev
-        element.style = `height: ${getMaxHeigth()}px`;
+        itemControls.map((item, index) => {
+            item.addEventListener('click', () => {
+                setPosition(index)
+            })
+        })
     }
 
     function prev() {
         setPosition(positions[0])
-        console.log('prev position: ', positions[0])
     }
 
     function next() {
         setPosition(positions[2])
-        console.log('next position: ', positions[2])
     }
 
     function setPosition(newPosition) {
@@ -47,14 +54,22 @@ function slider(classElement, number) {
             }
         })
         positions.map(position => addTransition(position))
+        itemControls.map((item, index) => {
+            if(index == positions[1]) {
+                item.classList.add('active')
+            }
+            else {
+                item.classList.remove('active')
+            }
+        })
     }
 
     function addTransition(posi) {
-        items[posi].classList.add("transition");
+        items[posi].classList.add("transition")
     }
 
     function removeTransition(posi) {
-        items[posi].classList.remove("transition");
+        items[posi].classList.remove("transition")
     }
 
     function getMaxHeigth() {
@@ -64,8 +79,21 @@ function slider(classElement, number) {
                 maxHeigth = item.offsetHeight
             }
         })
-        console.log('max height : ', maxHeigth)
         return maxHeigth
+    }
+
+    function getHeightControl() {
+        let control = element.getElementsByClassName('control')[0]
+        let height = control.offsetHeight
+        return height
+    }
+
+    function renderFlowControl() {
+        let render = ''
+        items.map(() => {
+            render += "<span class='control-item'></span>"
+        })
+        return render
     }
 }
 
