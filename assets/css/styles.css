@@ -1,5 +1,7 @@
 body {
-    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 .slider {
@@ -57,4 +59,9 @@ body {
 
 .control-item.active {
     background-color: orange;
+}
+
+.img-responsive {
+    width: 100%;
+    height: auto;
 }
