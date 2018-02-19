@@ -1,4 +1,4 @@
-function slider(classElement, number, intervalTime) {
+function slider(classElement, number, intervalTime = 0) {
     let element = document.getElementsByClassName(classElement)[number]
 
     let items = [...element.getElementsByClassName('slider-item')]
@@ -13,7 +13,7 @@ function slider(classElement, number, intervalTime) {
         itemControls = [...element.getElementsByClassName('control-item')]
         items.map(item => item.style = 'left: 100%')
         setPosition(0)
-        let interval = intervalTime ? setInterval(() => {
+        let interval = intervalTime > 0 ? setInterval(() => {
             next()
         }, intervalTime) : null
         element.getElementsByClassName('next')[0].onclick = () => {
