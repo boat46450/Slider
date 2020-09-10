@@ -1,6 +1,5 @@
 # Slider
 ## Homework for internship at Dek-D
-Preview of my code : https://boat46450.github.io/Slider/
 ## How to use my Slider library
 1. download ```slider.css``` and ```slider.js``` and import to your html
 2. add script following after import ```slider.js``` line
